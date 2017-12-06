@@ -417,6 +417,7 @@ function runTest(name, code, options, args) {
           if (found !== positive) {
             console.log(chalk.red(`Output ${positive ? "does not contain" : "contains"} forbidden string: ${value}`));
             markersIssue = true;
+            console.log(newCode);
           }
         }
         if (markersIssue) break;
