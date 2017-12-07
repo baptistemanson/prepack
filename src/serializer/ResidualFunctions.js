@@ -149,7 +149,7 @@ export class ResidualFunctions {
       invariant(instances.length > 0);
 
       let factoryId;
-      const suffix = instances[0].functionValue.__originalName || "";
+      const suffix = instances[0].functionValue.__originalName || this.realm.debugNames ? "factoryFunction" : "";
       if (this._shouldUseFactoryFunction(functionBody, instances)) {
         // Rewritten function should never use factory function.
         invariant(!this._hasRewrittenFunctionInstance(rewrittenAdditionalFunctions, instances));
@@ -513,6 +513,7 @@ export class ResidualFunctions {
               unstrictFunctionBodies.push(funcNode);
             }
           } else {
+            // TODO: make sure things here are emitted correctly
             funcNode = t.callExpression(
               t.memberExpression(factoryId, t.identifier("bind")),
               [nullExpression].concat(flatArgs)

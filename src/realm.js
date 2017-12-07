@@ -181,6 +181,7 @@ export class Realm {
   isReadOnly: boolean;
   isStrict: boolean;
   useAbstractInterpretation: boolean;
+  debugNames: void | boolean;
   timeout: void | number;
   mathRandomGenerator: void | (() => number);
   strictlyMonotonicDateNow: boolean;

@@ -307,6 +307,7 @@ function runTest(name, code, options, args) {
       if (err instanceof FatalError) return true;
       console.log("Test should have caused introspection error, but instead caused a different internal error!");
       console.log(err);
+      console.log(err.stack);
     }
     return false;
   } else if (code.includes("// cannot serialize")) {
@@ -316,6 +317,8 @@ function runTest(name, code, options, args) {
       if (err instanceof FatalError) {
         return true;
       }
+      console.log(err);
+      console.log(err.stack);
     }
     console.log(chalk.red("Test should have caused error during serialization!"));
     return false;
@@ -336,6 +339,7 @@ function runTest(name, code, options, args) {
       console.log(serialized.code);
     } catch (err) {
       console.log(err);
+      console.log(err.stack);
     }
     return false;
   } else if (code.includes("// Copies of ")) {
@@ -360,6 +364,7 @@ function runTest(name, code, options, args) {
       }
     } catch (err) {
       console.log(err);
+      console.log(err.stack);
       return false;
     }
     return true;
@@ -383,6 +388,7 @@ function runTest(name, code, options, args) {
     let unique = 27277;
     let oldUniqueSuffix = "";
     let expectedCode = code;
+    let actualStack;
     if (compileJSXWithBabel) {
       expectedCode = transformWithBabel(expectedCode, ["transform-react-jsx"]);
     }
@@ -439,6 +445,7 @@ function runTest(name, code, options, args) {
         } catch (e) {
           // always compare strings.
           actual = "" + e;
+          actualStack = e.stack;
         }
         if (expected !== actual) {
           console.log(chalk.red("Output mismatch!"));
@@ -481,6 +488,7 @@ function runTest(name, code, options, args) {
       }
     } catch (err) {
       console.log(err);
+      console.log(err.stack);
     }
     console.log(chalk.underline("original code"));
     console.log(code);
@@ -492,6 +500,7 @@ function runTest(name, code, options, args) {
     }
     console.log(chalk.underline("output of inspect() on last generated code iteration"));
     console.log(actual);
+    if (actualStack) console.log(actualStack)
     return false;
   }
 }
@@ -540,8 +549,8 @@ function run(args) {
 
     for (let [delayInitializations, inlineExpressions, lazyObjectsRuntime] of [
       [false, false, undefined],
-      [true, true, undefined],
-      [false, false, args.lazyObjectsRuntime],
+      //[true, true, undefined],
+      //[false, false, args.lazyObjectsRuntime],
     ]) {
       if ((skipLazyObjects || args.noLazySupport) && lazyObjectsRuntime) {
         continue;
