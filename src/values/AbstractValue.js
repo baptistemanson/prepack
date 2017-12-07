@@ -608,10 +608,10 @@ export default class AbstractValue extends Value {
     // todo: #1174 look at kind and figure out much narrower widenings
     let types = TypesDomain.joinValues(value1, value2);
     let values = ValuesDomain.topVal;
-    let [hash] = hashCall("widening");
+    let [hash] = hashCall("widened");
     let Constructor = Value.isTypeCompatibleWith(types.getType(), ObjectValue) ? AbstractObjectValue : AbstractValue;
     let result = new Constructor(realm, types, values, hash, []);
-    result.kind = "widening";
+    result.kind = "widened";
     result.expressionLocation = value1.expressionLocation;
     return result;
   }

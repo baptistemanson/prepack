@@ -144,6 +144,7 @@ export class ResidualHeapVisitor {
       ) {
         continue;
       }
+      if (propertyBindingKey.pathNode !== undefined) continue; // property is written to inside a loop
       invariant(propertyBindingValue);
       this.visitObjectProperty(propertyBindingValue);
     }
